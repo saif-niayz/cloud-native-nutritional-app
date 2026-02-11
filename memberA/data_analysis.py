@@ -9,10 +9,6 @@ This script:
 - Generates required visualizations
 """
 
-
-
-
-
 import os
 import pandas as pd
 import numpy as np
@@ -22,7 +18,6 @@ import seaborn as sns
 
 def main():
     # --- Paths ---
-    
     base_dir = os.path.dirname(__file__)
     csv_path = os.path.join(base_dir, "data", "All_Diets.csv")
     out_dir = os.path.join(base_dir, "Outputs")
@@ -54,7 +49,7 @@ def main():
         return
 
     # --- Basic cleaning ---
-    # Convert macros to numbers 
+    # Convert macros to numbers
     for col in [protein_col, carbs_col, fat_col]:
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
@@ -94,12 +89,34 @@ def main():
         f.write(f"Average protein: {highest_val:.2f} g\n")
     print("Saved:", highest_txt)
 
-   # Optimization: use nlargest per group instead of sorting full dataset
+    
+
+    # Optimization: use nlargest per group instead of sorting full dataset
     top5 = (
         df.groupby(diet_col, group_keys=False)
         .apply(lambda g: g.nlargest(5, protein_col))
         .copy()
     )
+
+    # reset_index WITHOUT drop 
+    top5 = top5.reset_index()
+
+    
+    if "level_0" in top5.columns:
+        top5 = top5.drop(columns=["level_0"])
+
+    
+    if diet_col not in top5.columns:
+        first_col = top5.columns[0]
+        top5 = top5.rename(columns={first_col: diet_col})
+
+    # Final safety check 
+    if diet_col not in top5.columns:
+        print("\nERROR: Diet_type is still missing from top5 after fix.")
+        print("Top5 columns:", top5.columns.tolist())
+        return
+
+    
 
     top5_path = os.path.join(out_dir, "top5_protein_by_diet.csv")
     top5.to_csv(top5_path, index=False)
@@ -108,7 +125,7 @@ def main():
     # --- Charts ---
     sns.set_theme()
 
-    # 1) Bar chart 
+    # 1) Bar chart
     avg_long = avg_macros.reset_index().melt(
         id_vars=diet_col,
         value_vars=macro_cols,
