@@ -1,7 +1,7 @@
 import pytest 
 from pathlib import Path
 import shutil
-from memberB import data_analysis
+from memberA import data_analysis
 
 def test_main_creates_outputs():
     base_dir = Path(__file__).parent.parent / "memberA"
