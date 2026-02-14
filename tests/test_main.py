@@ -4,7 +4,7 @@ import shutil
 from memberB import data_analysis
 
 def test_main_creates_outputs():
-    base_dir = Path(__file__).parent.parent / "memberB"
+    base_dir = Path(__file__).parent.parent / "memberA"
     outputs_dir = base_dir / "Outputs"
     
     if outputs_dir.exists():
