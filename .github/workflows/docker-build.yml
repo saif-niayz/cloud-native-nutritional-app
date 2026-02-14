@@ -18,7 +18,7 @@ jobs:
         python-version: '3.11'
         
     - name: Run python tests
-      run: pytest
+      run: py -m pytest tests/
 
     - name: set up docker buildx
       uses: docker/setup-buildx-action@v3
