@@ -1,10 +1,10 @@
 import pytest 
 from pathlib import Path
 import shutil
-from memberB import data_analysis
+from memberA import data_analysis
 
 def test_main_creates_outputs():
-    base_dir = Path(__file__).parent.parent / "memberB"
+    base_dir = Path(__file__).parent.parent / "memberA"
     outputs_dir = base_dir / "Outputs"
     
     if outputs_dir.exists():
@@ -13,7 +13,7 @@ def test_main_creates_outputs():
     data_analysis.main()
     
     assert outputs_dir.exists()
-    assert (outputs_dir / "cleaned_ALL_Diets.csv").exists()
+    assert (outputs_dir / "cleaned_All_Diets.csv").exists()
     assert (outputs_dir / "top5_protein_by_diet.csv").exists()
     assert (outputs_dir / "bar_avg_macros.png").exists()
     assert (outputs_dir / "heatmap_macros.png").exists()
