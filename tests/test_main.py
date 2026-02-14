@@ -13,7 +13,7 @@ def test_main_creates_outputs():
     data_analysis.main()
     
     assert outputs_dir.exists()
-    assert (outputs_dir / "cleaned_ALL_Diets.csv").exists()
+    assert (outputs_dir / "cleaned_All_Diets.csv").exists()
     assert (outputs_dir / "top5_protein_by_diet.csv").exists()
     assert (outputs_dir / "bar_avg_macros.png").exists()
     assert (outputs_dir / "heatmap_macros.png").exists()
